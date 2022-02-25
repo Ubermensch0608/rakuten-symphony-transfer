@@ -1,5 +1,5 @@
 export const getExpires = (expire: number) => {
-  expire = expire * 1000 + 2800000000; // 날짜 임의 조정
+  expire = expire * 1000;
 
   const today = +new Date();
   const diff = expire - today;
