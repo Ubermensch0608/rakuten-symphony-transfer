@@ -1,19 +1,24 @@
-import React from "react";
-import Container from "components/Container";
+import Container from "components/layout/Container";
 import DetailPage from "pages/DetailPage";
 import LinkPage from "pages/LinkPage";
-import { ThemeProvider } from "styled-components";
 import GlobalStyle from "styles/GlobalStyle";
+import useAxios from "hooks/useAxios";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { LinkDataType } from "types/linkTypes";
 
 function App() {
+  const linkData = useAxios<LinkDataType[] | null>("/homeworks/links");
+  if (!linkData) return null;
   return (
-    <>
+    <Container>
       <GlobalStyle />
-      <Container>
-        {/* <LinkPage /> */}
-        <DetailPage />
-      </Container>
-    </>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LinkPage linkData={linkData} />} />
+          <Route path="/:key" element={<DetailPage linkData={linkData} />} />
+        </Routes>
+      </Router>
+    </Container>
   );
 }
 
